@@ -1,7 +1,6 @@
 import DataClass as dc
 import numpy as np
 
-
 def delete_handle(data_class, handel_index):
     """
     删除空值
@@ -160,7 +159,7 @@ def mid_interpolation_handle(data_class, handel_index):
 if __name__ == "__main__":
     data = dc.DataClass([str] + [float] * 12)
     data.read(r"E:\_Python\DataPreprocessing\sample\fz_micro.txt", False)
-    # delete_handle(data)
+    # delete_handle(data,[i for i in range(1, 13)])
     data.parse()
     mid_interpolation_handle(data, [i for i in range(1, 13)])
     print(data.data)

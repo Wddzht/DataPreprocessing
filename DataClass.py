@@ -19,7 +19,7 @@ class DataClass:
         if has_head:
             self.head = file.readline()
         for line in file:
-            items = line.strip().split(split_tag)
+            items = line.split(split_tag)
             self.data.append(items)
         return self.data
 
