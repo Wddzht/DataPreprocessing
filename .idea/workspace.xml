@@ -2,13 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b62e0af8-a113-4cfe-a922-bccbdd06d86e" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/DataTransformation/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataCleaning/MissingDataHandle.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataCleaning/MissingDataHandle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataCleaning/OutlierHandle.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataCleaning/OutlierHandle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataCleaning/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataCleaning/__init__.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DataTransformation/NormalizeHandle.py" beforeDir="false" afterPath="$PROJECT_DIR$/DataTransformation/NormalizeHandle.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LogHelper.py" beforeDir="false" afterPath="$PROJECT_DIR$/LogHelper.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,44 +21,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/DataTransformation/NormalizeHandle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="57">
-              <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="47" />
+            <state relative-caret-position="171">
+              <caret line="18" column="45" lean-forward="true" selection-start-line="17" selection-start-column="8" selection-end-line="18" selection-end-column="45" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DataTransformation/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-line="3" />
-              <folding>
-                <element signature="e#0#22#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/DataCleaning/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret selection-end-column="22" />
-              <folding>
-                <element signature="e#0#22#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/DataTransformation/StandardizationHandle.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="29" column="50" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="50" />
+            <state relative-caret-position="307">
+              <caret line="26" column="33" lean-forward="true" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -121,7 +90,6 @@
         <option value="$PROJECT_DIR$/Data/DataClass.py" />
         <option value="$PROJECT_DIR$/DataCleaning/MissingDataHandler.py" />
         <option value="$PROJECT_DIR$/DataTransformation/NormalizeHandel.py" />
-        <option value="$PROJECT_DIR$/DataTransformation/StandardizationHandle.py" />
         <option value="$PROJECT_DIR$/DataClass.py" />
         <option value="$PROJECT_DIR$/LogHelper.py" />
         <option value="$PROJECT_DIR$/DataCleaning/MissingDataHandle.py" />
@@ -129,6 +97,7 @@
         <option value="$PROJECT_DIR$/DataCleaning/OutlierHandle.py" />
         <option value="$PROJECT_DIR$/DataTransformation/NormalizeHandle.py" />
         <option value="$PROJECT_DIR$/DataTransformation/__init__.py" />
+        <option value="$PROJECT_DIR$/DataTransformation/StandardizationHandle.py" />
       </list>
     </option>
   </component>
@@ -546,13 +515,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/DataTransformation/StandardizationHandle.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="29" column="50" selection-start-line="29" selection-start-column="4" selection-end-line="29" selection-end-column="50" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/DataTransformation/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -575,8 +537,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/DataTransformation/NormalizeHandle.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="57">
-          <caret line="3" column="4" selection-start-line="3" selection-start-column="4" selection-end-line="3" selection-end-column="47" />
+        <state relative-caret-position="171">
+          <caret line="18" column="45" lean-forward="true" selection-start-line="17" selection-start-column="8" selection-end-line="18" selection-end-column="45" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/DataTransformation/StandardizationHandle.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="26" column="33" lean-forward="true" selection-start-line="26" selection-start-column="33" selection-end-line="26" selection-end-column="33" />
         </state>
       </provider>
     </entry>
