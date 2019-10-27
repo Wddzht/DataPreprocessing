@@ -45,6 +45,10 @@ class DataClass:
                     self.data[i][j] = None
         return self.data
 
+    def print(self):
+        for line in self.data:
+            print('|'.join(['{:.2f}'.format(line[i]) if i > 0 else line[i] for i in range(len(line))]))
+
 
 if __name__ == "__main__":
     data = DataClass([str] + [float] * 12)
