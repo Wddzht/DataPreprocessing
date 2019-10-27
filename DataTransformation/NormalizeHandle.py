@@ -1,4 +1,3 @@
-import DataClass as dc
 import numpy as np
 
 
@@ -12,12 +11,14 @@ def min_max_normalize(data_class, handel_index):
     :param handel_index:
     :return:
     """
-    data = np.array(data_class.data)
     max_list = {}
     min_list = {}
     for j in handel_index:
-        max_list[j] = max(data[:, j])
-        min_list[j] = min(data[:, j])
+        col = []
+        for i in range(len(data_class.data)):
+            col.append(data_class.data[i][j])
+        max_list[j] = max(col)
+        min_list[j] = min(col)
     for i in range(len(data_class.data)):
         for j in handel_index:
             data_class.data[i][j] = (data_class.data[i][j] - min_list[j]) / (max_list[j] - min_list[j])
@@ -31,5 +32,5 @@ def anti_min_max_normalize(data_class, handel_index):
     for i in range(len(data_class.data)):
         for j in handel_index:
             data_class.data[i][j] = (data_class.data[i][j] * (
-                        data_class.normalize_max[j] - data_class.normalize_min[j])) + data_class.normalize_min[j]
+                    data_class.normalize_max[j] - data_class.normalize_min[j])) + data_class.normalize_min[j]
     return data_class

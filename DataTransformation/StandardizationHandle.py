@@ -11,11 +11,12 @@ def standardization(data_class, handel_index):
     :param handel_index:
     :return:
     """
-    data = np.array(data_class.data)
     mean_list = {}
     std_list = {}
     for j in handel_index:
-        col = data[:, j]
+        col = []
+        for i in range(len(data_class.data)):
+            col.append(data_class.data[i][j])
         mean_list[j] = np.mean(col, axis=0)
         std_list[j] = np.std(col, axis=0)
         col = (col - mean_list[j]) / std_list[j]

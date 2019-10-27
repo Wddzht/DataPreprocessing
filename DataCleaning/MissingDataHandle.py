@@ -110,6 +110,8 @@ def __interpolation_handle(data_class, handel_index, type):
 def mid_interpolation_handle(data_class, handel_index):
     """
     插值法填充
+
+    需要 data.prase()
     :param data_class:
     :param handel_index:
     :return:
