@@ -1,4 +1,4 @@
-# DataPreprocessing 数据预处理
+# <center>DataPreprocessing 数据预处理工具集</center> 
 ## 文件结构：
 1. **数据清洗** /DataCleaning
    1. 空值处理 MissingDataHandle.py
@@ -32,9 +32,12 @@
 7. **日志记录** LogHelper.py
 
 ---
+
 ## 数据处理流程
 
-![avatar](file:///E:\_Python\DataPreprocessing\picture\流程图.png)
+![avatar](https://raw.githubusercontent.com/Wddzht/DataPreprocessing/master/picture/%E6%B5%81%E7%A8%8B%E5%9B%BE.png)
+
+---
 
 ## 一、数据表结构DataClass
 ### 1.1 属性:
@@ -73,7 +76,7 @@ RECEIVETIME|CO|NO2|SO2|O3|PM25|PM10|TEMP|HUM|PM05N|PM1N|PM25N|PM10N
 2017/1/10 1:00|412.93|876.2|503.9|930.7|66.8|67.17|13|68.07|4635.37|
 
 
-
+---
 ## 二、数据清洗 /DataCleaning
 ### 2.1 空值处理 MissingDataHandle.py
 #### 2.1.1 空值删除 delete_handle(data_class, handel_index)
@@ -158,7 +161,7 @@ data.print()
 ```
 
 
-
+---
 ## 三、数据变换 /DataTransformation
 ### 3.1 归一化 NormalizeHandle.py
 #### 3.1.1 离差归一化 min_max_normalize(data_class, handel_index)
@@ -247,3 +250,20 @@ RECEIVETIME|CO|NO2|SO2|O3|PM25|PM10|TEMP|HUM|PM05N|PM1N|PM25N|PM10N
 
 
 #### 3.2.2 反标准化 anti_standardization(data_class, handel_index)
+
+运行示例
+
+```python {.line-numbers}
+import DataClass as dc
+import DataTransformation.StandardizationHandle as sdh
+
+data = dc.DataClass([str] + [float] * 12)
+data.read(r"E:\_Python\DataPreprocessing\sample\fz_micro.txt", False)
+data.parse()
+mdh.mid_interpolation_handle(data, [i for i in range(1, 13)])  # 插值法填充
+sdh.standardization(data, [i for i in range(1, 13)])  # 标准化
+sdh.anti_standardization(data, [i for i in range(1, 13)])  # 反标准化
+data.print()
+```
+
+---
