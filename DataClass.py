@@ -20,6 +20,7 @@ class DataClass:
             self.head = file.readline()
         for line in file:
             items = line.split(split_tag)
+            assert len(items) == self.attr_count
             self.data.append(items)
         return self.data
 
@@ -49,8 +50,25 @@ class DataClass:
         for line in self.data:
             print('|'.join(['{:.2f}'.format(line[i]) if i > 0 else line[i] for i in range(len(line))]))
 
+    def copy(self):
+        dc = DataClass(list(self.type_list), list(self.data))
+        dc.head = self.head
+        dc.type_list = self.type_list
+        dc.normalize_max = self.normalize_max
+        dc.normalize_min = self.normalize_min
+        dc.standard_mean = self.standard_mean
+        dc.standard_std = self.standard_std
+
+    @property
+    def len(self):
+        return len(self.data)
+
+    @property
+    def attr_count(self):
+        return len(self.type_list)
+
 
 if __name__ == "__main__":
     data = DataClass([str] + [float] * 12)
-    data.read(r"E:\_Python\DataPreprocessing\sample\fz_micro.txt", False)
+    data.read(r".\sample\fz_micro.txt", False)
     # data.parse()
