@@ -33,7 +33,7 @@ def get_core(data_class):
     :param data_class:
     :return: 属性所在的下标标量.
     """
-    core_attrs = []
+    core_attrs = set()
     for i in range(data_class.len):
         for j in range(i + 1, data_class.len):
             if data_class.data[i][data_class.attr_count - 1] != data_class.data[j][data_class.attr_count - 1]:
@@ -44,28 +44,28 @@ def get_core(data_class):
                         dis_count += 1
                         dis_attr = attr
                 if dis_count == 1:
-                    core_attrs.append(dis_attr)
+                    core_attrs.add(dis_attr)
     return core_attrs
 
 
-def check_distinct(data_class, handel_index, considered_instence):
+def check_distinct(data_class, handel_index, considered_instance):
     """
     检查在 handel_index 作为属性集下,是否存在不可区分集.
     :param data_class:
     :param handel_index:
     :return: true 表示没有不可区分集. False 表示存在不可区分集.
     """
-    loop_instence = list(considered_instence)
-    return_considered_instence = list(considered_instence)
+    loop_instance = list(considered_instance)
+    return_considered_instance = list(considered_instance)
     classify_num = 0
     is_reduct = True
     for i in range(data_class.len):
-        if not loop_instence[i]:
+        if not loop_instance[i]:
             continue
         distinct_set = [i]
         is_distinct_set = True
         for j in range(i + 1, data_class.len):
-            if not loop_instence[j]:
+            if not loop_instance[j]:
                 continue
             decision_same = data_class.data[i][data_class.attr_count - 1] == data_class.data[j][
                 data_class.attr_count - 1]  # 决策属性是否相同
@@ -75,7 +75,7 @@ def check_distinct(data_class, handel_index, considered_instence):
                     condition_same = False
                     break
             if condition_same:
-                loop_instence[j] = False  # 如果 i 和 j 条件属性相同,则 j 不用再进行计算
+                loop_instance[j] = False  # 如果 i 和 j 条件属性相同,则 j 不用再进行计算
                 if decision_same:
                     distinct_set.append(j)
                 else:
@@ -85,14 +85,14 @@ def check_distinct(data_class, handel_index, considered_instence):
         if is_distinct_set:
             classify_num += 1
             for item in distinct_set:
-                return_considered_instence[item] = False
+                return_considered_instance[item] = False
         else:
             is_reduct = False
 
     if is_reduct:
         return True, classify_num, []
     else:
-        return False, classify_num, return_considered_instence
+        return False, classify_num, return_considered_instance
 
 
 def attribute_select(data_class):
@@ -102,26 +102,26 @@ def attribute_select(data_class):
     :param data_class:
     :return:
     """
-    considered_instence = np.array([True] * data_class.len, np.bool)
+    considered_instance = np.array([True] * data_class.len, np.bool)
     selected_attr = get_core(data_class)
     attr_values_dicts = get_attr_values_dicts(data_class)
-    is_reduct, classify_num, considered_instence = check_distinct(data_class, selected_attr, considered_instence)
-    if is_reduct:
-        return selected_attr
+    is_reduction, classify_num, considered_instance = check_distinct(data_class, selected_attr, considered_instance)
+    if is_reduction:
+        return selected_attr, classify_num
 
     while True:
         if len(selected_attr) == data_class.attr_count - 1:
-            raise ValueError('数据集无法进行属性选择')
+            raise ValueError('Cant reduce the attributes')
 
         min_classify_num_reduct = sys.maxsize
         min_classify_num_no_reduct = sys.maxsize
-        considered_instence_no_reduct = []
+        considered_instance_no_reduct = []
         select_attr_step = -1
         has_reduct = False
         for attr in range(data_class.attr_count - 1):
             if attr in selected_attr:
                 continue
-            is_reduct, classify_num, _con = check_distinct(data_class, selected_attr + [attr], considered_instence)
+            is_reduct, classify_num, _con = check_distinct(data_class, selected_attr + [attr], considered_instance)
             if is_reduct:
                 has_reduct = True
                 if classify_num < min_classify_num_reduct:
@@ -138,36 +138,41 @@ def attribute_select(data_class):
                     if classify_num < min_classify_num_no_reduct:
                         min_classify_num_no_reduct = classify_num
                         select_attr_step = attr
-                        considered_instence_no_reduct = _con
+                        considered_instance_no_reduct = _con
                     elif classify_num == min_classify_num_no_reduct and len(attr_values_dicts[attr]) < len(
                             attr_values_dicts[select_attr_step]):
                         min_classify_num_no_reduct = classify_num
                         select_attr_step = attr
-                        considered_instence_no_reduct = _con
+                        considered_instance_no_reduct = _con
 
         if has_reduct:
             return selected_attr + [select_attr_step], min_classify_num_reduct
         else:
             selected_attr = selected_attr + [select_attr_step]
-            considered_instence = considered_instence_no_reduct
+            considered_instance = considered_instance_no_reduct
 
 
 if __name__ == '__main__':
-    data = [['1', '0', '2', '1', '1'],
-            ['1', '0', '2', '0', '1'],
-            ['1', '2', '0', '0', '2'],
-            ['1', '2', '2', '1', '0'],
-            ['2', '1', '0', '0', '2'],
-            ['2', '1', '1', '0', '2'],
-            ['2', '1', '2', '1', '1']]
-    dc = DataClass.DataClass([str] * 5, data)
+    # data = [['1', '0', '2', '1', '1'],
+    #         ['1', '0', '2', '0', '1'],
+    #         ['1', '2', '0', '0', '2'],
+    #         ['1', '2', '2', '1', '0'],
+    #         ['2', '1', '0', '0', '2'],
+    #         ['2', '1', '1', '0', '2'],
+    #         ['2', '1', '2', '1', '1']]
 
-    core = get_core(dc)
-    assert core == [1]  # CORE(cd)=1 (the second attr)
+    # core = get_core(dc)
+    # assert core == [1]  # CORE(cd)=1 (the second attr)
+    #
+    # considered_instance = np.array([True] * dc.len, np.bool)
+    # is_reduct, classify_num, considered_instance = check_distinct(dc, core, considered_instance)
+    # assert (is_reduct, classify_num, considered_instance) == (False, 1, [False] * 2 + [True] * 5)
 
-    considered_instence = np.array([True] * dc.len, np.bool)
-    is_reduct, classify_num, considered_instence = check_distinct(dc, core, considered_instence)
-    assert (is_reduct, classify_num, considered_instence) == (False, 1, [False] * 2 + [True] * 5)
+    # selected_attr, max_classify_num = attribute_select(dc)
+    # assert selected_attr == {1, 3}
 
+    # [case2]
+    dc = DataClass.DataClass([str] * 5)
+    dc.read(r'..\sample\weather.txt', True)
     selected_attr, max_classify_num = attribute_select(dc)
-    assert selected_attr == [1, 3]
+    assert selected_attr == {0, 1, 3}

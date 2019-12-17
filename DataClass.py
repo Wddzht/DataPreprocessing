@@ -19,7 +19,7 @@ class DataClass:
         if has_head:
             self.head = file.readline()
         for line in file:
-            items = line.split(split_tag)
+            items = line.strip('\n').split(split_tag)
             assert len(items) == self.attr_count
             self.data.append(items)
         return self.data
