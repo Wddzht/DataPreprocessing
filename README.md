@@ -1,6 +1,6 @@
 # <center>DataPreprocessing</center> 
 ## **<center>数据预处理工具集</center>**
- <center><span style="border-bottom:1px solid #2f2f2f;">https://github.com/Wddzht/DataPreprocessing.git<span></center>
+此项目为 [大气环境数据挖掘实验室](https://wddzht.github.io/APDA.github.io/) 成员在大气污染物监测数据挖掘项目中常用的数据预处理方法整理,更多的是为数据处理分析的流程和方法做列举,仅供学习. 代码持续更新中,不足之处欢迎批评指正. [git here](https://github.com/Wddzht/DataPreprocessing)
 
 ## 目录结构：
 1. **数据清洗** /DataCleaning
@@ -31,11 +31,18 @@
    1. 属性选择 RoughSetAttrSelecter
       1. 基于粗糙集理论的属性选择 attribute_select(data_class)
 5. **数据离散** /DataIntegration
+   1. 分箱
+      1. 等值分箱
+      2. 等频分箱
+      3. 基于Gini指数分箱
+      4. 基于熵增分箱
+   2. one-hot编码
 6. **数据集结构** DataClass.py
    1. 数据读取 read(self, path, has_head, split_tag='\t')
    2. 数据格式转换 parse(self)
    3. 打印 print(self)
-7. **日志记录** LogHelper.py
+7. **稀疏数据处理**
+8. **日志记录** LogHelper.py
 
 ---
 
