@@ -15,6 +15,7 @@
       8. 拉格朗日法
    2. 异常值 OutlierHandle.py
       1. Z-Score法 z_score_detection(data_class, handel_index, z_thr=3.0)
+      2. 滑动平均法 
 2. **数据集成** /Discretization   
    1. 合并
    2. 去重
@@ -291,13 +292,13 @@ data: (其中a,b,c,d为条件属性, E为决策属性)
 
 U|a|b|c|d|**E**
 :----|-----:|-----:|-----:|-----:|-----:
-$u_1$|1|0|2|1|1
-$u_2$|1|0|2|0|1
-$u_3$|1|2|0|0|2
-$u_4$|1|2|2|1|0
-$u_5$|2|1|0|0|2
-$u_6$|2|1|1|0|2
-$u_7$|2|1|2|1|1
+u<sub>1</sub>|1|0|2|1|1
+u<sub>2</sub>|1|0|2|0|1
+u<sub>3</sub>|1|2|0|0|2
+u<sub>4</sub>|1|2|2|1|0
+u<sub>5</sub>|2|1|0|0|2
+u<sub>6</sub>|2|1|1|0|2
+u<sub>7</sub>|2|1|2|1|1
 
 ```python {.line-numbers}
 # 方法测试
@@ -321,14 +322,14 @@ assert selected_attr == [1, 3]  # 选择{b,d}作为约简后的属性集
 存在两条或多条记录,它们的(已选择的)条件属性相同,但对应的决策属性不同,则这些记录构成了不可区分集,如:当选择{a,b}作为Reduct时,
 U|a|b|**E**
 :----|-----:|-----:|-----:
-$u_3$|1|2|2
-$u_4$|1|2|0
-$u_5$|2|1|2
-$u_6$|2|1|2
-$u_7$|2|1|1
+u<sub>3</sub>|1|2|2
+u<sub>4</sub>|1|2|0
+u<sub>5</sub>|2|1|2
+u<sub>6</sub>|2|1|2
+u<sub>7</sub>|2|1|1
 
-$$a_1b_2→E_2,\:a_1b_2→E_0\:(\{u_3,u_4\}构成不可区分集)$$
-$$a_2b_1→E_2,\:a_2b_1→E_1\:(\{u_5,u_6,u_7\}构成不可区分集)$$
+a<sub>1</sub>b<sub>2</sub>→E<sub>2</sub>, a<sub>1</sub>b<sub>2</sub>→E<sub>0</sub> ({u<sub>3</sub>,u<sub>4</sub>}构成不可区分集)
+a<sub>2</sub>b<sub>1</sub>→E<sub>2</sub>, a<sub>2</sub>b<sub>1</sub>→E<sub>1</sub> (\{u<sub>5</sub>,u<sub>6</sub>,u<sub>7</sub>}构成不可区分集)
 
 **Case 2:**
 ```python {.line-numbers}
@@ -343,33 +344,34 @@ assert selected_attr == {0, 1, 3}  # 选择属性 {Outlook, Temperature, Windy}
 Weather数据集:
 U|Outlook|Temperature|Humidity|Windy|**Play**
 :----|-----:|-----:|-----:|-----:|-----:
-$x_1$|sunny|hot|high|false|no
-$x_2$|sunny|hot|high|true|no
-$x_3$|overcast|hot|high|false|yes
-$x_4$|rainy|mild|high|false|yes
-$x_5$|rainy|cool|normal|false|no
-$x_6$|overcast|cool|normal|true|yes
-$x_7$|sunny|mild|high|false|no
-$x_8$|sunny|cool|normal|false|yes
-$x_9$|rainy|mild|normal|false|yes
-$x_10$|sunny|mild|normal|true|yes
-$x_11$|overcast|mild|high|true|yes
-$x_12$|overcast|hot|normal|false|yes
-$x_13$|rainy|mild|high|true|no
+x<sub>1</sub>|sunny|hot|high|false|no
+x<sub>2</sub>|sunny|hot|high|true|no
+x<sub>3</sub>|overcast|hot|high|false|yes
+x<sub>4</sub>|rainy|mild|high|false|yes
+x<sub>5</sub>|rainy|cool|normal|false|no
+x<sub>6</sub>|overcast|cool|normal|true|yes
+x<sub>7</sub>|sunny|mild|high|false|no
+x<sub>8</sub>|sunny|cool|normal|false|yes
+x<sub>9</sub>|rainy|mild|normal|false|yes
+x<sub>10</sub>|sunny|mild|normal|true|yes
+x<sub>11</sub>|overcast|mild|high|true|yes
+x<sub>12</sub>|overcast|hot|normal|false|yes
+x<sub>13</sub>|rainy|mild|high|true|no
 
 属性化简后的数据:
 U|Outlook|Temperature|Windy|**Play**
 :----|-----:|-----:|-----:|-----:
-$x_1$|sunny|hot|false|no
-$x_2$|sunny|hot|true|no
-$x_3$|overcast|hot|false|yes
-$x_4$|rainy|mild|false|yes
-$x_5$|rainy|cool|false|no
-$x_6$|overcast|cool|true|yes
-$x_7$|sunny|mild|false|no
-$x_8$|sunny|cool|false|yes
-$x_9$|rainy|mild|false|yes
-$x_10$|sunny|mild|true|yes
-$x_11$|overcast|mild|true|yes
-$x_12$|overcast|hot|false|yes
-$x_13$|rainy|mild|true|no
+x<sub>1</sub>|sunny|hot|false|no
+x<sub>2</sub>|sunny|hot|true|no
+x<sub>3</sub>|overcast|hot|false|yes
+x<sub>4</sub>|rainy|mild|false|yes
+x<sub>5</sub>|rainy|cool|false|no
+x<sub>6</sub>|overcast|cool|true|yes
+x<sub>7</sub>|sunny|mild|false|no
+x<sub>8</sub>|sunny|cool|false|yes
+x<sub>9</sub>|rainy|mild|false|yes
+x<sub>10</sub>|sunny|mild|true|yes
+x<sub>11</sub>|overcast|mild|true|yes
+x<sub>12</sub>|overcast|hot|false|yes
+x<sub>13</sub>|rainy|mild|true|no
+--- 
