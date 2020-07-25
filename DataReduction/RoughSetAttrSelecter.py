@@ -153,6 +153,7 @@ def attribute_select(data_class):
 
 
 if __name__ == '__main__':
+    # [Case1]
     # data = [['1', '0', '2', '1', '1'],
     #         ['1', '0', '2', '0', '1'],
     #         ['1', '2', '0', '0', '2'],
@@ -171,7 +172,7 @@ if __name__ == '__main__':
     # selected_attr, max_classify_num = attribute_select(dc)
     # assert selected_attr == {1, 3}
 
-    # [case2]
+    # [Case2]
     dc = DataClass.DataClass([str] * 5)
     dc.read(r'..\sample\weather.txt', True)
     selected_attr, max_classify_num = attribute_select(dc)

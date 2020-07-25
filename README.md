@@ -37,109 +37,6 @@
 7. **日志记录** LogHelper.py
 
 ---
-## 四、数据规约 /DataReduction
-### 4.1 属性选择 RoughSetAttrSelecter.py
-#### 4.1.1 基于粗糙集理论的属性选择 attribute_select(data_class)
-
-Workflow:
-1. 计算数据的CORE属性集:`core = get_core(dc)`,
-2. 以CORE中的属性作为初始的属性选择,检查在选定的属性集下,是否存在不可区分集(即计算选定属性集在所有决策属性的下近似) ``check_distinct(dc, core, considered_instence)``
-   $$Initial\:SelectedAttrs=\{CORE\}$$
-   $$POS_{\{SelectedAttrs\}}(D)=U_{CX}$$
-3. 若存在不可区分集,进行下一步迭代.若不存在不可区分集,则CORE就是Reduct.
-4. 从剩下的属性中依次选取一个属性$a_i$加入:$$SelectedAttrs=\{CORE\}+\{a_i\}$$ 检查在选定的属性集下,是否存在不可区分集.
-5. 若存在一个或多个个数相同的属性集,都不会产生不可区分集,则在这些属性中选取值种类数较少的属性加入并返回SelectedAttrs,并返回SelectedAttrs,程序运行结束.
-6. 若对于所有的$\{CORE\}+\{a_i\}$属性集,都会产生不可区分集(没有 Reduct )),则选择区分集个数最少的属性进入下一轮迭代(第4步).
-
-**Case 1:**
-data: (其中a,b,c,d为条件属性, E为决策属性)
-
-U|a|b|c|d|**E**
-:----|-----:|-----:|-----:|-----:|-----:
-$u_1$|1|0|2|1|1
-$u_2$|1|0|2|0|1
-$u_3$|1|2|0|0|2
-$u_4$|1|2|2|1|0
-$u_5$|2|1|0|0|2
-$u_5$|2|1|1|0|2
-$u_5$|2|1|2|1|1
-
-```python {.line-numbers}
-# 方法测试
-dc = DataClass.DataClass([str] * 5, data)
-core = get_core(dc)
-assert core == [1]  # CORE(cd)=1 (the second attr)
-
-considered_instence = np.array([True] * dc.len, np.bool)
-is_reduct, classify_num, considered_instence = check_distinct(dc, core, considered_instence)
-assert (is_reduct, classify_num, considered_instence) == (False, 1, [False] * 2 + [True] * 5)
-
-# 属性选择
-selected_attr, max_classify_num = attribute_select(dc)
-assert selected_attr == [1, 3]  # 选择{b,d}作为约简后的属性集
-```
-方法说明:
-其中`get_core(data)`方法通过构造 Discernibility Matrix 的方法选出CORE属性.
-`check_distinct`方法用来检查在选定的属性集下,是否存在**不可区分集**. 并返回**分类个数**和**数据集约简**
-
-不可区分集:
-存在两条或多条记录,它们的(已选择的)条件属性相同,但对应的决策属性不同,则这些记录构成了不可区分集,如:当选择{a,b}作为Reduct时,
-U|a|b|**E**
-:----|-----:|-----:|-----:
-$u_3$|1|2|2
-$u_4$|1|2|0
-$u_5$|2|1|2
-$u_6$|2|1|2
-$u_7$|2|1|1
-
-$$a_1b_2→E_2,\:a_1b_2→E_0\:(\{u_3,u_4\}构成不可区分集)$$
-$$a_2b_1→E_2,\:a_2b_1→E_1\:(\{u_5,u_6,u_7\}构成不可区分集)$$
-
-**Case 2:**
-```python {.line-numbers}
-# [case2]
-dc = DataClass.DataClass([str] * 5)
-dc.read(r'..\sample\weather.txt', True)
-
-selected_attr, max_classify_num = attribute_select(dc)
-assert selected_attr == {0, 1, 3}  # 选择属性 {Outlook, Temperature, Windy}
-```
-
-Weather数据集:
-U|Outlook|Temperature|Humidity|Windy|**Play**
-:----|-----:|-----:|-----:|-----:|-----:
-$x_1$|sunny|hot|high|false|no
-$x_2$|sunny|hot|high|true|no
-$x_3$|overcast|hot|high|false|yes
-$x_4$|rainy|mild|high|false|yes
-$x_5$|rainy|cool|normal|false|no
-$x_6$|overcast|cool|normal|true|yes
-$x_7$|sunny|mild|high|false|no
-$x_8$|sunny|cool|normal|false|yes
-$x_9$|rainy|mild|normal|false|yes
-$x_10$|sunny|mild|normal|true|yes
-$x_11$|overcast|mild|high|true|yes
-$x_12$|overcast|hot|normal|false|yes
-$x_13$|rainy|mild|high|true|no
-
-属性化简后的数据:
-U|Outlook|Temperature|Windy|**Play**
-:----|-----:|-----:|-----:|-----:
-$x_1$|sunny|hot|false|no
-$x_2$|sunny|hot|true|no
-$x_3$|overcast|hot|false|yes
-$x_4$|rainy|mild|false|yes
-$x_5$|rainy|cool|false|no
-$x_6$|overcast|cool|true|yes
-$x_7$|sunny|mild|false|no
-$x_8$|sunny|cool|false|yes
-$x_9$|rainy|mild|false|yes
-$x_10$|sunny|mild|true|yes
-$x_11$|overcast|mild|true|yes
-$x_12$|overcast|hot|false|yes
-$x_13$|rainy|mild|true|no
-
----
 
 ## 数据处理流程
 
@@ -399,8 +296,8 @@ $u_2$|1|0|2|0|1
 $u_3$|1|2|0|0|2
 $u_4$|1|2|2|1|0
 $u_5$|2|1|0|0|2
-$u_5$|2|1|1|0|2
-$u_5$|2|1|2|1|1
+$u_6$|2|1|1|0|2
+$u_7$|2|1|2|1|1
 
 ```python {.line-numbers}
 # 方法测试
